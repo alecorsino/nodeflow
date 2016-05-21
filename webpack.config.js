@@ -1,17 +1,26 @@
 var webpack = require('webpack');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var path = require('path');
 
+console.log(__dirname);
 module.exports = {
+  // context: path.join(__dirname, 'src'),
   debug: true,
-  devtool: '#eval-source-map',
-
+  devtool: '#source-map',
+  stats: {
+      // Configure the console output
+      progress:true,
+      colors: true,
+      modules: true,
+      reasons: true
+  },
   entry: [
     './src/main.js'
   ],
 
   output: {
     path: path.join(__dirname, 'www'),
-    publicPath: '/',
+    // publicPath: '/',
     filename: 'scripts/bundle.js'
   },
 

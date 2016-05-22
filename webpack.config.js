@@ -1,5 +1,4 @@
 var webpack = require('webpack');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
 var path = require('path');
 
 console.log(__dirname);
@@ -14,14 +13,14 @@ module.exports = {
       modules: true,
       reasons: true
   },
-  entry: [
-    './src/main.js'
-  ],
+  entry: {
+    main: './src/main.js'
+  },
 
   output: {
     path: path.join(__dirname, 'www'),
     // publicPath: '/',
-    filename: 'scripts/bundle.js'
+    filename: 'scripts/[name].bundle.js'
   },
 
   plugins: [
@@ -32,7 +31,8 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.css$/, loader: "style-loader!css-loader" },
-      { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' }
+      { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' },
+      { test: /\.html$/, loader: "file?name=[path][name].[ext]&context=./src"}
     ]
   }
 };

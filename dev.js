@@ -1,3 +1,8 @@
+// Alternative worlflow configuration
+// Using as well Browsersync
+// Not being used. So IGNORE THIS FILE.
+// KEPT for reference.
+
 var bs = require('browser-sync').create();
 var webpack = require('webpack');
 
@@ -32,16 +37,6 @@ function bsReload() {
     bs.reload();
 };
 
-bs.init({
-    server: 'www',
-    open: true,
-    logFileChanges: false,
-    plugins: ['bs-fullscreen-message']
-});
-
-bundle();
-
-bs.watch('www').on('change', bs.reload);
 
 /*
 * Watch  Source dir and trigger webpack
@@ -58,3 +53,27 @@ watch.createMonitor(path.join(__dirname, 'src/'), function (monitor) {
     })
     // monitor.stop(); // Stop watching
 });
+
+bundle();
+
+// bs.watch('www').on('change', bsReload);
+bs.init({
+    server: 'www',
+    open: true,
+    logFileChanges: true,
+    plugins: ['bs-fullscreen-message'],
+    files: [
+            {
+                match: ["./www/**/*"],
+                fn: function (event, file) {
+                  console.log(event+" : "+file);
+                    bsReload()
+                },
+                options: {
+                    // ignored: '*.txt'
+                }
+            }
+    ]
+});
+
+// bsReload();

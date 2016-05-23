@@ -4,13 +4,19 @@
   "description": "NodeJS web development workflow with Webpack",
   "main": "app.js",
   "scripts": {
-    "dev": "node dev",
+    "clean": "rm -r www/*",
+    "dev:bs": "npm run clean && node dev",
+    "dev": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Alejandro Corsino",
+  "author": {
+    "name": "Alejandro Corsino",
+    "url": "https://github.com/alecorsino"
+  },
   "license": "ISC",
   "dependencies": {
     "browser-sync": "^2.12.8",
+    "browser-sync-webpack-plugin": "^1.0.1",
     "bs-fullscreen-message": "^1.0.2",
     "css-loader": "^0.23.1",
     "file-loader": "^0.8.5",
@@ -22,5 +28,8 @@
     "webpack": "^1.13.0",
     "webpack-dev-middleware": "^1.6.1"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "keywords": [
+    "Webpack","BrowserSync","Stylus"
+  ]
 }

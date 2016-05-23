@@ -13,5 +13,5 @@ require('./html/someView.html');
 *
 */
 
-var logger = new (require('./js/Logger'))();
+var logger = new (require('./js/util/Logger'))();
 logger.debug('Webpack rules...');

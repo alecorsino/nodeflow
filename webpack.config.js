@@ -1,4 +1,6 @@
 var webpack = require('webpack');
+var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+
 var path = require('path');
 
 console.log(__dirname);
@@ -22,10 +24,15 @@ module.exports = {
     // publicPath: '/',
     filename: 'scripts/[name].bundle.js'
   },
-
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new BrowserSyncPlugin({
+      server: 'www',
+      open: true,
+      logFileChanges: true
+      // plugins: ['bs-fullscreen-message'],
+    })
   ],
 
   module: {

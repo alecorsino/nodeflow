@@ -29,6 +29,7 @@ module.exports = {
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
+    new webpack.optimize.CommonsChunkPlugin('scripts/common.js'),
     new BrowserSyncPlugin({
       server: 'www',
       open: true,

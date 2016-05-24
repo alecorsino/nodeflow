@@ -4,9 +4,8 @@
   "description": "NodeJS web development workflow with Webpack",
   "main": "app.js",
   "scripts": {
-    "clean": "rm -r www/*",
-    "dev:bs": "npm run clean && node dev",
-    "dev": "webpack --watch",
+    "clean": "rm -rf www/*",
+    "dev": "npm run clean && webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
@@ -19,17 +18,21 @@
     "browser-sync-webpack-plugin": "^1.0.1",
     "bs-fullscreen-message": "^1.0.2",
     "css-loader": "^0.23.1",
+    "extract-loader": "0.0.2",
     "file-loader": "^0.8.5",
+    "html-loader": "^0.4.3",
     "strip-ansi": "^3.0.1",
     "style-loader": "^0.13.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^2.1.0",
-    "watch": "^0.18.0",
+    "url-loader": "^0.5.7",
     "webpack": "^1.13.0",
     "webpack-dev-middleware": "^1.6.1"
   },
   "devDependencies": {},
   "keywords": [
-    "Webpack","BrowserSync","Stylus"
+    "Webpack",
+    "BrowserSync",
+    "Stylus"
   ]
 }

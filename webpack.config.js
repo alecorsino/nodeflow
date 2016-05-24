@@ -5,7 +5,6 @@ var path = require('path');
 
 console.log(__dirname);
 module.exports = {
-  // context: path.join(__dirname, 'src'),
   debug: true,
   devtool: '#source-map',
   stats: {
@@ -16,14 +15,17 @@ module.exports = {
       reasons: true
   },
   entry: {
-    main: './src/main.js'
+    index: './src/index.js',
+    about: './src/js/about.js'
+
   },
 
   output: {
     path: path.join(__dirname, 'www'),
     // publicPath: '/',
-    filename: 'scripts/[name].bundle.js'
+    filename: 'scripts/[name].js'
   },
+
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
@@ -37,9 +39,24 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /\.css$/, loader: "style-loader!css-loader" },
-      { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' },
-      { test: /\.html$/, loader: "file?name=[path][name].[ext]&context=./src"}
+      { test: /\.(jpe?g|png|gif|svg)$/,
+        loader: 'url-loader?limit=8192&name=[path][hash].[ext]&context=./src'  // inline base64 URLs for <=8k images, direct URLs for the rest
+      },
+
+      // { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' },
+      { test: /\.styl$/,
+        loaders: [ 'file?name=[path][hash].css&context=./src',
+                  'extract',
+                  'css-loader',
+                  'stylus-loader'
+                                  ]
+      },
+      { test: /\.html$/,
+        loaders: [ 'file?name=[path][name].[ext]&context=./src',
+                   'extract',
+                  'html?attrs=img:src link:href&root=.' // 'html?' + JSON.stringify({attrs: ["img:src", "link:href"]}) + '&root=.'
+                 ]
+      }
     ]
   }
 };

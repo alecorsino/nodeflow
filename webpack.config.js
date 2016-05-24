@@ -22,7 +22,7 @@ module.exports = {
 
   output: {
     path: path.join(__dirname, 'www'),
-    // publicPath: '/',
+    publicPath: '/',
     filename: 'scripts/[name].js'
   },
 
@@ -54,7 +54,7 @@ module.exports = {
       { test: /\.html$/,
         loaders: [ 'file?name=[path][name].[ext]&context=./src',
                    'extract',
-                  'html?attrs=img:src link:href&root=.' // 'html?' + JSON.stringify({attrs: ["img:src", "link:href"]}) + '&root=.'
+                  'html?attrs=img:src link:href&root=/'
                  ]
       }
     ]

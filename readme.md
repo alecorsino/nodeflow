@@ -4,15 +4,16 @@ BrowserSync will reload the pages automatically.
 
 # Installation
  `npm install`  then you can star developing using `npm run dev`.
-  Script are configured inside pacakge.json  scripts section
-  Project will be build by default to `www` dir.
+  Script are configured inside pacakge.json  scripts section.
+  Project build by default to `www` dir.
 
 # TODO:
-  -production build
-  
+  - production build
+
+
+
 #Caveats
  The clean script is a unix shell command, it won't work under Windows.
- The
 
 
 Project created by [Alejandro Corsino](https://github.com/alecorsino).

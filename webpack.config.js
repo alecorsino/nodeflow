@@ -1,12 +1,13 @@
 var webpack = require('webpack');
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var path = require('path');
 
 console.log(__dirname);
 module.exports = {
   debug: true,
-  devtool: '#source-map',
+  devtool: 'source-map',
   stats: {
       // Configure the console output
       progress:true,
@@ -15,7 +16,7 @@ module.exports = {
       reasons: true
   },
   entry: {
-    index: './src/index.js',
+    index: './src/js/index.js',
     about: './src/js/about.js'
 
   },
@@ -35,6 +36,16 @@ module.exports = {
       open: true,
       logFileChanges: true
       // plugins: ['bs-fullscreen-message'],
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'src/html/index.hbs',
+      inject:false
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'about.html',
+      template: 'src/html/about.hbs',
+      inject:true
     })
   ],
 
@@ -44,21 +55,30 @@ module.exports = {
         loader: 'url-loader?limit=8192&name=[path][hash].[ext]&context=./src'  // inline base64 URLs for <=8k images, direct URLs for the rest
       },
 
-      // { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' },
+      // { test: /\.css$/, loader: 'style-loader!css-loader' },
       { test: /\.styl$/,
         loaders: [ 'file?name=[path][hash].css&context=./src',
                   'extract',
-                  'css-loader',
-                  'stylus-loader'
+                  'css-loader?sourceMap&context=./src',
+                  'stylus-loader?sourceMap'
                                   ]
+      },
+      { test: /\.hbs$/,
+        loaders:[ 'handlebars',
+                  'extract',
+                  'html?attrs=img:src link:href&root=/']
       },
       { test: /\.html$/,
         loaders: [ 'file?name=[path][name].[ext]&context=./src',
                    'extract',
-                  'html?attrs=img:src link:href&root=/'
+                   'html?attrs=img:src link:href&root=/'
                  ]
       }
     ]
+  },
+  stylus: {
+    use: [require('nib')()],
+    import: ['~nib/lib/nib/index.styl']
   }
 };
 

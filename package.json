@@ -4,7 +4,7 @@
   "description": "NodeJS web development workflow with Webpack 2",
   "main": "app.js",
   "scripts": {
-    "clean": "rm -rf www/*",
+    "clean": "rm -rf dist/*",
     "dev": "npm run clean && webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

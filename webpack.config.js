@@ -4,26 +4,28 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var path = require('path');
 var node_modules = path.resolve(__dirname, 'node_modules');
+// var openBrowser = !process.argv.some(arg => arg.indexOf('nb') >= 0);
+// console.log('[Open Browser]', openBrowser, '| Use: npm run dev -- nb');
 
 
 module.exports = {
   devtool: '#source-map',
   stats: {
-      errors:true,
-      progress:true,
-      colors: true,
-      modules: true,
-      reasons: true
+    errors: true,
+    progress: true,
+    colors: true,
+    modules: true,
+    reasons: true
   },
 
   entry: {
-    index: './src/index.js'
+    index: './src/app.js'
   },
 
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    filename: 'scripts/[name].js'
+    filename: 'scripts/[hash].js'
   },
 
   module: {
@@ -34,29 +36,32 @@ module.exports = {
         exclude: [ node_modules ],
         loader: 'eslint-loader',
         options: {
-          fix: true,
+          fix: true
         }
       },
-        {
-          test: /(\.jsx|\.js)$/,
-          exclude: [ node_modules ],
-          use: [
-                {loader:'babel-loader'}
-          ]
-        }
+      {
+        test: /(\.jsx|\.js)$/,
+        exclude: [ node_modules ],
+        use: [
+              {loader: 'babel-loader'}
+        ]
+      }
     ]
   },
-  resolve:{
-    modules:[path.resolve('./src'),'node_modules']
+  resolve: {
+    modules: [path.resolve('./src'), 'node_modules']
   },
   plugins: [
-    // new webpack.optimize.OccurenceOrderPlugin(),
     // new webpack.NoErrorsPlugin(),
-    // new webpack.optimize.CommonsChunkPlugin('scripts/common.js'),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'commons',
+      filename: 'commons.js'
+    }),
     new HtmlWebpackPlugin({
-      title: 'My App',
+      title: 'Nodeflow 2',
       filename: 'index.html',
-      inject:'body'
+      inject: false,
+      template: 'src/assets/templates/default.ejs'
     }),
     new BrowserSyncPlugin({
       server: 'dist',
@@ -65,7 +70,8 @@ module.exports = {
       // plugins: ['bs-fullscreen-message'],
     })
   ]
-};
+}
+
 
 
 

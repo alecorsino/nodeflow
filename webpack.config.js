@@ -1,65 +1,70 @@
 var webpack = require('webpack');
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var path = require('path');
+var node_modules = path.resolve(__dirname, 'node_modules');
 
-console.log(__dirname);
+
 module.exports = {
-  debug: true,
   devtool: '#source-map',
   stats: {
-      // Configure the console output
+      errors:true,
       progress:true,
       colors: true,
       modules: true,
       reasons: true
   },
-  entry: {
-    index: './src/index.js',
-    about: './src/js/about.js'
 
+  entry: {
+    index: './src/index.js'
   },
 
   output: {
-    path: path.join(__dirname, 'www'),
+    path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     filename: 'scripts/[name].js'
   },
 
+  module: {
+    rules: [
+      {
+        enforce: 'pre',
+        test: /(\.jsx|\.js)$/,
+        exclude: [ node_modules ],
+        loader: 'eslint-loader',
+        options: {
+          fix: true,
+        }
+      },
+        {
+          test: /(\.jsx|\.js)$/,
+          exclude: [ node_modules ],
+          use: [
+                {loader:'babel-loader'}
+          ]
+        }
+    ]
+  },
+  resolve:{
+    modules:[path.resolve('./src'),'node_modules']
+  },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.NoErrorsPlugin(),
-    new webpack.optimize.CommonsChunkPlugin('scripts/common.js'),
+    // new webpack.optimize.OccurenceOrderPlugin(),
+    // new webpack.NoErrorsPlugin(),
+    // new webpack.optimize.CommonsChunkPlugin('scripts/common.js'),
+    new HtmlWebpackPlugin({
+      title: 'My App',
+      filename: 'index.html',
+      inject:'body'
+    }),
     new BrowserSyncPlugin({
-      server: 'www',
+      server: 'dist',
       open: true,
       logFileChanges: true
       // plugins: ['bs-fullscreen-message'],
     })
-  ],
-
-  module: {
-    loaders: [
-      { test: /\.(jpe?g|png|gif|svg)$/,
-        loader: 'url-loader?limit=8192&name=[path][hash].[ext]&context=./src'  // inline base64 URLs for <=8k images, direct URLs for the rest
-      },
-
-      // { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' },
-      { test: /\.styl$/,
-        loaders: [ 'file?name=[path][hash].css&context=./src',
-                  'extract',
-                  'css-loader',
-                  'stylus-loader'
-                                  ]
-      },
-      { test: /\.html$/,
-        loaders: [ 'file?name=[path][name].[ext]&context=./src',
-                   'extract',
-                  'html?attrs=img:src link:href&root=/'
-                 ]
-      }
-    ]
-  }
+  ]
 };
 
 
